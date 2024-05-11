@@ -21,6 +21,22 @@ public class CardService implements AbstractService<Card> {
         return DAO.findAll();
     }
 
+    public List<Card> findByOrganizerId(long id) {
+        return DAO.findByOrganizerId(id);
+    }
+
+    public List<Card> findByParticipantId(long id) {
+        return DAO.findByParticipantId(id);
+    }
+
+    public List<Card> findFree() {
+        return DAO.findFree();
+    }
+
+    public List<Card> findCompleted() {
+        return DAO.findCompleted();
+    }
+
     @Override
     public Card create(Card entity) {
         return DAO.create(entity);

@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -19,31 +18,32 @@ public class UserDao implements AbstractHibernateDao<User> {
 
     @Override
     public User find(long id) {
-        return sessionFactory.getCurrentSession().get(User.class, id);
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        User response = session.get(User.class, id);
+        transaction.commit();
+        return response;
     }
 
     public User find(String login) {
-        return (User) sessionFactory.getCurrentSession().createQuery(
-                "SELECT 1 FROM users WHERE login = login"
-        ).getSingleResult();
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+
+        User response = session.createQuery(
+                "SELECT u FROM User u WHERE u.login = ?1", User.class
+        ).setParameter(1, login).getSingleResultOrNull();
+
+        transaction.commit();
+        return response;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<User> findAll() {
-        return (List<User>) sessionFactory.getCurrentSession().createQuery("FROM users").list();
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<User> findByRole(String role) {
-        StringBuilder query = new StringBuilder();
-
-        query
-                .append("SELECT * FROM users WHERE role_id = (SELECT id FROM roles WHERE name = '")
-                .append(role.toLowerCase())
-                .append("')");
-
-        return (List<User>) sessionFactory.getCurrentSession().createQuery(query.toString()).list();
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        List<User> response = session.createQuery("SELECT u FROM User u", User.class).getResultList();
+        transaction.commit();
+        return response;
     }
 
     @Override

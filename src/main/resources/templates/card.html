@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css"
+            rel="stylesheet"
+    />
+    <title>Card</title>
+</head>
+<body>
+
+<div th:insert="fragments/header :: header"> </div>
+<section style="background-color: #eee;">
+    <div class="container py-5">
+
+        <div class="card">
+            <h5 class="card-header" th:text="${card.name}"></h5>
+            <div class="card-body">
+
+                <a class="h5 card-title text-body">Organizer: </a>
+                <a class="h5 card-title text-body" th:href="@{/profile(id=${card.organizer.id})}"
+                   th:text="|${card.organizer.name} ${card.organizer.surname}|"
+                ></a>
+
+                <h6 class="card-subtitle mb-2 text-muted"
+                    th:text="|Amount: ${card.price}$|"
+                ></h6>
+                <p class="card-text" th:text="${card.description} and ${card.description} != '' ? ${card.description} : |${card.organizer.name} didn't specify any information about card|"></p>
+
+                <div class="d-grid gap-2" sec:authorize="isAuthenticated()">
+                    <a class="btn" style="background-color: #81C784;" th:href="@{/cards/accept(id=${card.id})}" role="button"
+                       th:if="${user.role.name} == 'participant' and !${card.participant} and !${card.completeDate}">Accept</a>
+
+                    <a class="btn btn-success" th:href="@{/cards/complete(id=${card.id})}" role="button"
+                       th:if="${card.participant} and ${card.participant.id} == ${user.id} and !${card.completeDate}">Complete</a>
+
+                    <button class="btn btn-success" role="button" disabled
+                            th:if="${card.participant} and ${card.participant.id} == ${user.id} and ${card.completeDate}">Already completed!</button>
+
+                    <a class="btn btn-danger" th:href="@{/cards/delete(id=${card.id})}" role="button"
+                       th:if="${card.organizer.id} == ${user.id}">Delete</a>
+                </div>
+
+            </div>
+
+            <div class="card-footer" th:if="${card.participant}">
+                <a class="text-muted">Organizer: </a>
+                <a class="text-body" th:href="@{/profile(id=${card.participant.id})}"
+                   th:text="|${card.participant.name} ${card.participant.surname}|"
+                ></a>
+            </div>
+
+            <div class="card-footer text-danger" th:if="${card.completeDate}"
+                 th:text="|Card will be deleted after ${daysBeforeExpiration} days|"
+            ></div>
+        </div>
+
+    </div>
+</section>
+<div th:insert="fragments/footer :: footer"></div>
+
+<!-- MDB -->
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
+></script>
+
+</body>
+</html>

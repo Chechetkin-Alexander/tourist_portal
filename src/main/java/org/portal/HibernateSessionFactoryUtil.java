@@ -6,6 +6,7 @@ import org.portal.models.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.portal.models.Card;
 import org.springframework.context.annotation.Bean;
 
 @org.springframework.context.annotation.Configuration

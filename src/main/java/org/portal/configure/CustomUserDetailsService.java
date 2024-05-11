@@ -1,5 +1,6 @@
 package org.portal.configure;
 
+import org.portal.models.Role;
 import org.portal.models.User;
 import org.portal.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -20,20 +20,22 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserService userService;
 
     @Override
-    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.find(username);
-        String role = user.getRole().getName();
 
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-
-        if (role.equals("organizer")) {
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ORGANIZER"));
-        } else if (role.equals("participant")) {
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_PARTICIPANT"));
+        if (user == null) {
+            throw new UsernameNotFoundException("Cannot find user by name " + username);
         }
 
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(),
-                grantedAuthorities);
+                mapRolesToAuthorities(Arrays.asList(user.getRole())));
+    }
+
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(
+                        role.getName().toUpperCase()
+                ))
+                .collect(Collectors.toList());
     }
 }

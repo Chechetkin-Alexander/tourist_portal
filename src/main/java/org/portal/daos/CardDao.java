@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -19,27 +18,60 @@ public class CardDao implements AbstractHibernateDao<Card> {
 
     @Override
     public Card find(long id) {
-        return sessionFactory.getCurrentSession().get(Card.class, id);
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Card> findByOrganizerId(long id) {
-        return (List<Card>) sessionFactory.getCurrentSession().createQuery(
-                "SELECT * FROM cards WHERE organizer_id = " + id
-        ).list();
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Card> findByParticipantId(long id) {
-        return (List<Card>) sessionFactory.getCurrentSession().createQuery(
-                "SELECT * FROM cards WHERE participant_id = " + id
-        ).list();
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        Card response = session.get(Card.class, id);
+        transaction.commit();
+        return response;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<Card> findAll() {
-        return (List<Card>) sessionFactory.getCurrentSession().createQuery("SELECT * FROM cards").list();
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        List<Card> response = session.createQuery("SELECT c FROM Card c", Card.class).getResultList();
+        transaction.commit();
+        return response;
+    }
+
+    public List<Card> findByOrganizerId(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        List<Card> response = session.createQuery(
+                "SELECT c FROM Card c WHERE c.organizer.id = " + id, Card.class
+        ).getResultList();
+        transaction.commit();
+        return response;
+    }
+
+    public List<Card> findByParticipantId(long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        List<Card> response = session.createQuery(
+                "SELECT c FROM Card c WHERE c.participant is not null and c.participant.id = " + id, Card.class
+        ).getResultList();
+        transaction.commit();
+        return response;
+    }
+
+    public List<Card> findFree() {
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        List<Card> response = session.createQuery(
+                "SELECT c FROM Card c WHERE c.participant is null", Card.class
+        ).getResultList();
+        transaction.commit();
+        return response;
+    }
+
+    public List<Card> findCompleted() {
+        Session session = sessionFactory.getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        List<Card> response = session.createQuery(
+                "SELECT c FROM Card c WHERE c.completeDate is null", Card.class
+        ).getResultList();
+        transaction.commit();
+        return response;
     }
 
     @Override

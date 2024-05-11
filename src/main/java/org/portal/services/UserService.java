@@ -15,10 +15,6 @@ public class UserService implements AbstractService<User> {
         return DAO.find(login);
     }
 
-    public List<User> findByRole(String role) {
-        return DAO.findByRole(role);
-    }
-
     @Override
     public User find(long id) {
         return DAO.find(id);
