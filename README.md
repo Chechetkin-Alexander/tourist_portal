@@ -9,7 +9,7 @@
 
 ### Процедура запуска
 ```
-mvn build
+mvn package
 java -jar target/TouristPortal-1.0-SNAPSHOT.jar
 ```
 Далее зайти на сайт
