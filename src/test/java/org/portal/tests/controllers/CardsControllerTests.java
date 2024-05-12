@@ -6,6 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class CardsControllerTests {
     @Test
-    void tasksTest() {
+    void cardsTest() {
     }
 }

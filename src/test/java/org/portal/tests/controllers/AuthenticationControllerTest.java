@@ -86,6 +86,6 @@ public class AuthenticationControllerTest {
 
         when(mockResult.hasErrors()).thenReturn(true);
         when(userService.find(anyString())).thenReturn(null);
-        assertEquals(controller.registrationSave(mockForm, mockResult), "redirect:/authentication/employer/registration");
+        assertEquals(controller.registrationSave(mockForm, mockResult), "redirect:/authentication/organizer/registration");
     }
 }

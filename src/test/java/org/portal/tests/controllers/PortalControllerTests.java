@@ -25,7 +25,7 @@ public class PortalControllerTests {
     private PortalController controller;
 
     @Test
-    public void freelanceTest() {
+    public void PortalTest() {
         when(cardService.findFree()).thenReturn(new ArrayList<>());
         when(userService.find(anyString())).thenReturn(null);
 
