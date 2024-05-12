@@ -28,18 +28,33 @@
         <form method="POST" role="form" th:action="@{/cards/save}" th:object="${form}">
 
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
+                <label for="name" class="form-label">Name*</label>
                 <input class="form-control" type="text" id="name" name="name" placeholder="card name" th:field="*{name}"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Type</label>
+                <input class="form-control" type="text" id="name" name="name" placeholder="write the type of event" th:field="*{name}"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Address*</label>
+                <input class="form-control" type="text" id="name" name="name" placeholder="write the address" th:field="*{name}"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description*</label>
+                <textarea class="form-control" id="description" name="description" placeholder="description for your card" th:field="*{description}"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Date</label>
+                <input class="form-control" type="text" id="name" name="name" placeholder="write the date and time" th:field="*{name}"/>
             </div>
 
             <div class="mb-3">
                 <label for="price" class="form-label">Price</label>
                 <input class="form-control" type="number" id="price" name="price" placeholder="money amount" th:field="*{price}"/>
-            </div>
-
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" placeholder="description for your card" th:field="*{description}"></textarea>
             </div>
 
             <div class="d-grid gap-2">

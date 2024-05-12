@@ -23,10 +23,104 @@
 
 <footer class="bd-footer py-3 mt-5" th:fragment="footer">
     <div class="container py-3">
-        <div class="row">
-            <div class="col-lg-5 mb-3">
+        <div class="row mt-1">
+            <div class="col-lg-10">
                 <a class="d-inline-flex align-items-center mb-2 link-dark text-decoration-none" th:href="@{/portal}">
                     <span class="fs-5">Tourist portal</span>
+                    <div class="row">
+                        <!-- Форма фильтров -->
+                        <div class="dropdown mb-2">
+                            <button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                Фильтры
+                            </button>
+
+                            <form action="" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
+                                <div class="form-check text-white mx-3">
+                                    <input class="form-check-input" type="checkbox" name="on_sale" id="flexCheckDefault" value="on">
+                                    <input type="hidden" name="q" value="request.GET.q">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Товары по акции
+                                    </label>
+                                </div>
+                                <p class="text-white mx-3 mt-3">Сортировать:</p>
+                                <div class="form-check text-white mx-3">
+                                    <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault1" value="default" checked>
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        По умолчанию
+                                    </label>
+                                </div>
+                                <div class="form-check text-white mx-3">
+                                    <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="price">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        От дешевых к дорогим
+                                    </label>
+                                </div>
+                                <div class="form-check text-white mx-3">
+                                    <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-price">
+                                    <label class="form-check-label" for="flexRadioDefault3">
+                                        От дорогих к дешевым
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary mx-3 mt-3">Применить</button>
+                            </form>
+                        </div>
+                        <!-- Карта товара -->
+                        <div class="col-lg-4 col-md-6 p-3">
+                            <div class="card border-primary rounded custom-shadow">
+                                <img src="https://russpass.ru/event/_next/image?url=https%3A%2F%2Fcms.russpass.ru%2Fv1%2Ffile%2F63072fd220aed767411ba35f&w=1920&q=75" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <a href="../card.html">
+                                        <p class="card-title">Tula Kremlin</p>
+                                    </a>
+                                    <p class="card-text text-truncate">The oldest building in the city, built in the XVI century.</p>
+                                    <div class="d-flex justify-content-between">
+                                        <a href="#" class="btn">
+                                            <p class="card-text text-truncate"> 12b Mendeleevskaya street, Tula city </p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Карта товара -->
+                        <div class="col-lg-4 col-md-6 p-4">
+                            <div class="card border-primary rounded custom-shadow">
+                                <img src="https://russpass.ru/event/_next/image?url=https%3A%2F%2Fcms.russpass.ru%2Fv1%2Ffile%2F62d17f7b71b9411345ddcd1c&w=1920&q=75" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <a href="#">
+                                        <p class="card-title">Konduki</p>
+                                    </a>
+                                    <p class="card-text text-truncate"> An unusual location in the Tula region, originally it was a coal mining quarry. </p>
+
+                                    <p> ` </p>
+                                    <div class="d-flex justify-content-between">
+                                        <a href="#" class="btn">
+                                            <p class="card-text text-truncate"> Konduki, Tula region </p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Карта товара -->
+                        <div class="col-lg-4 col-md-6 p-4">
+                            <div class="card border-primary rounded custom-shadow">
+                                <img src="https://russpass.ru/event/_next/image?url=https%3A%2F%2Fcms.russpass.ru%2Fv1%2Ffile%2F63072fd8a89ceadf5225d154&w=1920&q=75" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <a href="#">
+                                        <p class="card-title">Yasnay Polyana</p>
+                                    </a>
+                                    <p class="card-text text-truncate">The family estate of the writer Leo Nikolaevich Tolstoy, turned into a museum.</p>
+
+                                    <p>200₽</p>
+                                    <div class="d-flex justify-content-between">
+                                        <a href="#" class="btn">
+                                            <p class="card-text text-truncate"> Yasnaya Polyana, Tula region </p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </a>
             </div>
         </div>

@@ -31,7 +31,7 @@ public class SecurityConfigurer {
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/authentication/**", "/portal", "/", "/index", "/cards/card", "/user").permitAll()
                                 .requestMatchers("/profile/**").authenticated()
-                                .requestMatchers("/cards/create-card", "/cards/save", "/cards/delete").hasAuthority("ORGANIZER")
+                                .requestMatchers("/cards/create-card", "/cards/save", "/cards/delete").hasAuthority("organizer")
                                 .requestMatchers("/cards/accept", "/cards/complete").hasAuthority("PARTICIPANT")
                 ).formLogin(
                         form -> form
