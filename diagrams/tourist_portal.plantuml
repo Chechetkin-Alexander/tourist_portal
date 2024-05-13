@@ -1,0 +1,277 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+interface AbstractHibernateDao<T> << interface >> {
+  + delete(long): void
+  + findAll(): List<T>
+  + find(long): T
+  + create(T): T
+  + delete(T): void
+  + update(T): void
+}
+interface AbstractService<T> << interface >> {
+  + find(long): T
+  + create(T): T
+  + delete(T): void
+  + update(T): void
+  + delete(long): void
+  + findAll(): List<T>
+}
+class Application {
+  + Application(): 
+  + main(String[]): void
+  - createRoles(RoleService): void
+}
+class AuthenticationController {
+  + AuthenticationController(): 
+  + organizerRegistration(Model): String
+  + login(): String
+  + participantRegistration(Model): String
+  + registrationSave(RegistrationForm, BindingResult): String
+}
+class AuthenticationControllerTest {
+  + AuthenticationControllerTest(): 
+  + errorsTest(): void
+  + participantRegistrationFormTest(): void
+  + existentUserRegistrationTest(): void
+  + loginTest(): void
+  + organizerRegistrationFormTest(): void
+  + anonymousUserTest(): void
+}
+class Card {
+  + Card(): 
+  ~ name: String
+  - description: String
+  - completeDate: Date
+  - organizer: User
+  - price: int
+  - participant: User
+  - id: long
+   name: String
+   description: String
+   participant: User
+   completeDate: Date
+   price: int
+   organizer: User
+   id: long
+}
+class CardDao {
+  + CardDao(): 
+  + findByOrganizerId(long): List<Card>
+  + findByParticipantId(long): List<Card>
+  + findFree(): List<Card>
+  + findCompleted(): List<Card>
+  + find(long): Card
+  + delete(long): void
+  + findAll(): List<Card>
+  + update(Card): void
+  + create(Card): Card
+  + delete(Card): void
+}
+class CardForm {
+  + CardForm(): 
+  - price: int
+  - description: String
+  - name: String
+   price: int
+   name: String
+   description: String
+}
+class CardService {
+  + CardService(): 
+  + find(long): Card
+  + findByOrganizerId(long): List<Card>
+  + findAll(): List<Card>
+  + findCompleted(): List<Card>
+  + create(Card): Card
+  + update(Card): void
+  + findByParticipantId(long): List<Card>
+  + delete(long): void
+  + delete(Card): void
+  + findFree(): List<Card>
+}
+class CardsController {
+  + CardsController(): 
+  + card(String, Model): String
+  + deleteCard(String): String
+  + createCard(Model): String
+  + acceptCard(String): String
+  + completeCard(String): String
+  + saveCard(CardForm, BindingResult): String
+}
+class CardsControllerTests {
+  + CardsControllerTests(): 
+  ~ cardsTest(): void
+}
+class CardsScheduler {
+  + CardsScheduler(): 
+  - checkExpiration(): void
+  + getDaysRemaining(Card): Integer
+}
+class CustomUserDetailsService {
+  + CustomUserDetailsService(): 
+  + loadUserByUsername(String): UserDetails
+  - mapRolesToAuthorities(Collection<Role>): Collection<GrantedAuthority>
+}
+class HibernateSessionFactoryUtil {
+  + HibernateSessionFactoryUtil(): 
+   sessionFactory: SessionFactory
+}
+class PortalController {
+  + PortalController(): 
+  + portal(Model, String): String
+}
+class PortalControllerTests {
+  + PortalControllerTests(): 
+  + PortalTest(): void
+}
+class ProfileController {
+  + ProfileController(): 
+  + registrationSave(ProfileEditForm, BindingResult): String
+  + profile(String, Model): String
+  + edit(Model): String
+}
+class ProfileEditForm {
+  + ProfileEditForm(): 
+  - roleName: String
+  + login: String
+  - age: int
+  - surname: String
+  - organization: String
+  - information: String
+  - address: String
+  - resume: String
+  - name: String
+   name: String
+   resume: String
+   information: String
+   surname: String
+   roleName: String
+   login: String
+   address: String
+   organization: String
+   age: int
+}
+class RegistrationForm {
+  + RegistrationForm(): 
+  - surname: String
+  - age: int
+  - address: String
+  - resume: String
+  - organization: String
+  - roleId: long
+  - name: String
+  - information: String
+  + login: String
+  - password: String
+   name: String
+   resume: String
+   password: String
+   roleId: long
+   information: String
+   surname: String
+   login: String
+   address: String
+   organization: String
+   age: int
+}
+class Role {
+  + Role(): 
+  - users: List<User>
+  - id: long
+  - name: String
+   name: String
+   id: long
+   users: List<User>
+}
+class RoleDao {
+  + RoleDao(): 
+  + findAll(): List<Role>
+  + create(Role): Role
+  + find(long): Role
+  + update(Role): void
+  + delete(long): void
+  + findByName(String): Role
+  + delete(Role): void
+}
+class RoleService {
+  + RoleService(): 
+  + findAll(): List<Role>
+  + delete(Role): void
+  + create(Role): Role
+  + find(long): Role
+  + update(Role): void
+  + findByName(String): Role
+  + delete(long): void
+}
+class SchedulerConfig {
+  + SchedulerConfig(): 
+}
+class SecurityConfigurer {
+  + SecurityConfigurer(): 
+  + passwordEncoder(): PasswordEncoder
+  + configure(AuthenticationManagerBuilder): void
+  + filterChain(HttpSecurity): SecurityFilterChain
+}
+class User {
+  + User(): 
+  - information: String
+  - address: String
+  - age: int
+  - password: String
+  ~ roleId: long
+  - id: long
+  - role: Role
+  - resume: String
+  - cards: List<Card>
+  - name: String
+  - surname: String
+  - offers: List<Card>
+  - organization: String
+  - login: String
+   resume: String
+   role: Role
+   roleId: long
+   surname: String
+   address: String
+   organization: String
+   name: String
+   password: String
+   offers: List<Card>
+   information: String
+   login: String
+   cards: List<Card>
+   id: long
+   age: int
+}
+class UserDao {
+  + UserDao(): 
+  + delete(User): void
+  + update(User): void
+  + delete(long): void
+  + create(User): User
+  + find(String): User
+  + findAll(): List<User>
+  + find(long): User
+}
+class UserService {
+  + UserService(): 
+  + update(User): void
+  + find(long): User
+  + create(User): User
+  + find(String): User
+  + delete(User): void
+  + delete(long): void
+  + findAll(): List<User>
+}
+
+CardDao                       -[#008200,dashed]-^  AbstractHibernateDao         
+CardService                   -[#008200,dashed]-^  AbstractService              
+RoleDao                       -[#008200,dashed]-^  AbstractHibernateDao         
+RoleService                   -[#008200,dashed]-^  AbstractService              
+UserDao                       -[#008200,dashed]-^  AbstractHibernateDao         
+UserService                   -[#008200,dashed]-^  AbstractService              
+@enduml
